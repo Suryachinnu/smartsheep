@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Smart Sheep</title>
+  <link rel="shortcut icon" href="./images/favicon.jpg" />
+  <!-- <base href="/SmartSheep"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/home.css">
+  <link rel="stylesheet" href="./vue/vuetify.min.css">  
+  <script src="./js/jquery.min.js"></script>
+  <script src='./js/bootstrap.min.js'></script>
+  <style>
+  .logo-img{
+    width: 100px;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 15px;
+  }
+  </style>
+</head>
+<body>
+   
+  <div id="app">
+      <v-app v-cloak>
+          <v-snackbar v-model="snackBar.show" :color="snackBar.type" :timeout="3500">
+              {{snackBar.message}}
+              <v-btn dark flat @click="snackBar.show = false">
+                  Close
+              </v-btn>
+          </v-snackbar>
+<section class="login-block">
+    <div class="container">
+ 
+	<div class="row">
+		<div class="col-md-12 login-sec" v-if="section=='login'">
+      <v-form ref="loginForm" id="loginForm" class="login-form" v-model="isLoginFormValid">
+		    <h2 class="text-center">Login Now</h2>
+        <div class="login-form" style="max-width:500px;margin:0 auto;">
+          <img src="images/logosmall.png" class="img-responsive logo-img">
+  <div class="form-group">
+    <v-text-field type="text" label="User name" rules='[rules.required,rules.urlValidation]' outlined v-model="l_username"></v-text-field>  
+  </div>
+  <div class="form-group">   
+    <v-text-field type="password" label="Password" rules='[rules.required]' outlined v-model="l_password"></v-text-field>    
+  </div>
+    <div class="form-check">
+    <label class="form-check-label">
+      <input type="checkbox" class="form-check-input">
+      <small>Remember Me</small>
+    </label>
+    <button type="submit" @click="loginMethod" :disabled="!isLoginFormValid" class="btn btn-login float-right">Submit</button>
+  </div>
+  <label class="mt-2 block" @click="section='register'">Click here to sign up</label>
+  
+</div>
+<div class="copy-text">Created with <i class="fa fa-heart"></i> by SmartSheep</div>
+</v-form>
+    </div>
+    <div class="col-md-12 login-sec" v-if="section=='register'">
+
+		    <h2 class="text-center">Register Here</h2>
+		    <v-form ref="form" id="registerForm" class="login-form" v-model="isRegisterFormValid">
+            <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="images/logosmall.png" class="img-responsive logo-img mb-5" style="margin:90px auto;">
+                    <h4>Personal Details</h4>
+                   <div class="form-group ">
+                    <label for="exampleInputEmail1" >User name</label>
+                    <input type="text" class="form-control" :rules="[rules.required]" v-model="r_username" placeholder="">    
+                  </div>
+                  <div class="form-group">
+                      <label for="exampleInputEmail1" >Mobile Number</label>
+                      <input type="text" class="form-control" :rules="[rules.required]" v-model="r_mobilenumber" placeholder="">    
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" >Email</label>
+                        <input type="text" class="form-control" :rules="[rules.required]" v-model="r_email" placeholder="">    
+                      </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1" class="text-uppercase">Password</label>
+                    <input type="password" :rules="[rules.required]"  v-model="r_password" class="form-control" placeholder="">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Company Details</h4>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1" class="text-uppercase">Company Name</label>
+                        <input type="text" class="form-control" :rules="[rules.required]" v-model="r_companyname" placeholder="">
+                    </div>
+                    <div class="form-group">
+                          <label for="exampleInputPassword1" class="text-uppercase">GSTIN Number</label>
+                          <input type="number" class="form-control" :rules="[rules.required]" v-model="r_gstin" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1" class="text-uppercase">Address</label>
+                        <textarea class="form-control" :rules="[rules.required]" v-model="r_address" placeholder=""></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="text-uppercase">Bank Name</label>
+                        <input class="form-control" :rules="[rules.required]" v-model="r_bankName" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="text-uppercase">Bank Account Number</label>
+                        <input class="form-control" type="number" :rules="[rules.required]" v-model="r_accNo" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="text-uppercase">Branch Name</label>
+                        <input class="form-control" type="text" :rules="[rules.required]" v-model="r_branchName" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="text-uppercase">IFSC Code</label>
+                        <input class="form-control" type="text" :rules="[rules.required]" v-model="r_ifsc" placeholder="">
+                    </div>
+
+                </div>
+                </div>
+            </div> 
+    <div class="form-check text-center mt-4">
+    <button type="submit" @click="register" :disabled="!isRegisterFormValid" class="btn btn-login">Submit</button>
+    <label class="mt-2" style="display: block" @click="section='login'">Click here to Login</label>
+  </div>  
+</v-form>
+		</div>		
+</div>
+</section>
+<form method="post" action="#" id="saveDataForm" name="saveDataForm" style="visibility:hidden;">
+  <input type="hidden" name="data" id="saveData" />
+</form>
+
+</v-app>
+  </div>
+  <script src='./vue/vue.min.js'></script>
+  <script src='./vue/vuetify.min.js'></script>
+  <script src='./js/home.js'></script>
+</body>
+</html>
