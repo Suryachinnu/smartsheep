@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>Smart Sheep</title>
   <!-- <base href="/SmartSheep"> -->
+  <link rel="shortcut icon" href="./images/favicon.jpg" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="./css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css">
@@ -30,401 +31,52 @@
     width: 265px;
     text-align: left;
   }
+  header{
+    display: flex;
+    justify-content:space-between;
+    padding:10px;
+    background: #fff;
+  }
+  header img{
+    height:30px;
+  }
+
   @media print {
-  body * {
+  body * ,.btn-add-row{
     visibility: hidden;
-  }
-  .container{
-      max-width:100%;
-      padding:0;
-  }
-  #section-to-print, #section-to-print * {
+  }  
+  #printcontent , #printcontent  * {
     visibility: visible;
-  }
-  #section-to-print {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
+    
+  } 
 }
 .preview-container{
     width:100%;
     height:100%;
     z-index: 2;
-}
+} 
   </style>
   
 </head>
 <body >
     <div id="app">
         <v-app v-cloak>
-  <div class="preview-container" v-if="showPreview">
-    <div class="row">
-        <div class="col-12">
-            <div class="card border-0">
-                <div class="card-body p-0" id="section-to-print">
-                    <div class="row m-0">
-                        <div class="col-md-6 p-0">
-                            <table class="table table-bordered" style="border-right: 0px;">
-                                <tr>
-                                    <td style="border-right: 0px;">
-                                        <h5 class="text-capitalize">{{smartUser.companyName}}</h5>
-                                        <p class="mb-0">{{smartUser.name}}</p>
-                                        <p class="mb-0">GSTIN No: {{smartUser.GSTINnumber}}</p>                                                               
-                                        <p class="mb-0">{{smartUser.address}}</p>
-                                        <p class="mb-0">Contact: {{smartUser.mobileNumber}}</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-right: 0px;">
-                                        <h6 class="font-weight-bold">Buyer Details</h6>                                
-                                        <p class="mb-0">Company Name:<b>{{sale.b_company}}</b> </p>
-                                        <p class="mb-0">GSTIN: <b>{{sale.b_GSTIN}}</b></p>
-                                        <p class="mb-0">PAN: <b>{{sale.b_PAN}}</b></p>
-                                        <p class="mb-0">State:<b>{{sale.b_state}}</b></p>
-                                        <p class="mb-0">Place of Supply:<b>{{sale.b_location}}</b></p>
-                                        <hr class="my-5"/>
-                                        <p class="mb-0">Name: <b>{{sale.b_name}}</b></p>
-                                        <p class="mb-0">Contact Person:<b>{{sale.b_phone}}</b></p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-md-6 p-0">
-                            <table  class="table table-bordered">
-                                <tr>
-                                    <td>
-                                        <p class="font-weight-bold mb-1">Invoice: {{billNo}}</p>
-                                        <p class="font-weight-bold mb-1">E-way Bill no: <b>{{sale.ewaybill}}</b></p>
-                                    </td>
-                                    <td class="text-right">
-                                    <p class="text-muted mb-0">Dated: {{moment(new Date()).format("MM-DD-YYYY")}}</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="font-weight-bold mb-0">Delivery Note</p>
-                                        <b>{{sale.d_note}}</b>
-                                    </td>
-                                    <td>
-                                        <p class="font-weight-bold mb-0">Mode/Terms of Payment</p>
-                                        <b>{{sale.mode_pay}}</b>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="font-weight-bold mb-0">Suppliers Ref</p>
-                                        <b>{{sale.sup_ref}}</b>
-                                    </td>
-                                    <td>
-                                        <p class="font-weight-bold mb-0">Other Ref</p>
-                                        <b>{{sale.other_ref}}</b>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="font-weight-bold mb-0">Buyers Order No</p>
-                                        <b>{{sale.buyers_ord_no}}</b>
-                                    </td>
-                                    <td>
-                                        <p class="font-weight-bold mb-0">Dated</p>
-                                        <b>{{sale.buyers_ord_date}}</b>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="font-weight-bold mb-0">Despatch Document No</p>
-                                        <b>{{sale.despatch_no}}</b>
-                                    </td>
-                                    <td>
-                                        <p class="font-weight-bold mb-0">Delivery Note Date</p>
-                                        <b>{{sale.del_note_date}}</b>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="font-weight-bold mb-0">Despatched Through</p>
-                                        <b>{{sale.despatch_through}}</b>
-                                    </td>
-                                    <td>
-                                        <p class="font-weight-bold mb-0">Destination</p>
-                                        <b>{{sale.destination}}</b>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="font-weight-bold mb-0">Bill of Lading/RR No</p>
-                                        <b>{{sale.bill_rr_no}}</b>
-                                    </td>
-                                    <td>
-                                        <p class="font-weight-bold mb-0">Motor Vehicle No</p>
-                                        <input type="text" v-model="sale.vehicle_no">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <p class="font-weight-bold mb-0">Terms of Delivery</p>
-                                        <b>{{sale.terms_delivery}}</b>
-                                    </td>
-                                </tr>
-                            </table>                 
-                        </div>
-                    </div>
-                    <div class="row m-0">
-                        <div class="col-md-12 p-0">
-                            <table class="table table-bordered mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="border-0 text-uppercase small font-weight-bold">S.No</th>
-                                        <th class="border-0 text-uppercase small font-weight-bold">Item</th> 
-                                        <th class="border-0 text-uppercase small font-weight-bold">HSN/SAC</th>                                       
-                                        <th class="border-0 text-uppercase small font-weight-bold">Qty</th>
-                                        <th class="border-0 text-uppercase small font-weight-bold">Unit Cost</th>
-                                        <th class="border-0 text-uppercase small font-weight-bold">Tax</th>
-                                        <th class="border-0 text-uppercase small font-weight-bold">CGST</th>
-                                        <th class="border-0 text-uppercase small font-weight-bold">SGST</th>
-                                        <th class="border-0 text-uppercase small font-weight-bold">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="item" v-for="item in items">
-                                        <td>{{items.indexOf(item) + 1}}</td>
-                                        <td ><b>{{item.name}}</b></td>
-                                        <td><b>{{item.hsn}}</b></td>
-                                        <td>
-                                            <div class="d-flex">
-                                                    <b>{{item.qty}}</b>
-                                                {{item.per}}</div></td>
-                                       
-                                        <td><b>{{item.price}}</b></td>
-                                        <td>
-                                                <b>{{item.tax}}</b>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex">
-                                                ({{item.tax/2}})% {{((item.tax/100*(item.qty*item.price))/2).toFixed(2)}}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex">
-                                            ({{item.tax/2}}%) {{((item.tax/100*(item.qty*item.price))/2).toFixed(2)}}
-                                            </div>
-                                        </td>
-                                        <td style="position:relative">
-                                            {{ (item.tax/100*(item.qty*item.price))+(item.qty*item.price) | currency  }}
-                                            <span class="show-hover fa fa-trash" @click="removeItem(items.indexOf(item))">x</span>
-                                        </td>
-                                      
-                                    </tr>
-                                  
-                                      <tr>
-                                        <td colspan="10">
-                                          <button class="btn-add-row" @click="addRow">Add row</button>
-                                        </td>
-                                      </tr>
-                                      <tr class="total">
-                                        <td colspan="10" class="text-right">
-                                            <div class="h5 font-weight-light">Total: RS {{ total | currency }}</div>
-                                            <div class="h5 font-weight-light">Amount Paid: 
-                                                    <b>{{sale.paid_amt}}</b></div>
-                                            <div class="h5 font-weight-light">Due:
-                                                    <b>{{sale.due}}</b></div>
-                                        </td>
-                                        
-                                      </tr>
-                                      <tr class="total">
-                                        <td colspan="10">
-                                            <p>In words</p>
-                                            
-                                            <h4>{{total | words}}</h4>
-                                        </td>
-                                        
-                                      </tr>
-                                      
-                                      <tr class="total">
-                                        <td colspan="5" height="20">
-                                        </td>
-                                        <td colspan="5" height="20">
-                                            <p>Company's Bank Details</p>
-                                            <p>Bank Name:{{smartUser.bankName}}</p>
-                                            <p>Account number:{{smartUser.accNo}}</p>
-                                            <p>Branch Name: {{smartUser.branchName}} </p>
-                                            <p>IFSC Code: {{smartUser.IFSC}}</p>
-                                        </td>
-                                      </tr>
-                                      <tr class="total">
-                                        <td colspan="5" height="20">
-                                            <p><strong>Declaration</strong></p>
-                                            <p>
-                                                We declare that this invoice actual price of the goods described and that all particulars are true and correct
-                                            </p>
-                                        </td> 
-                                        <td colspan="5" height="20">
-                                            <h4>For {{smartUser.companyName}}</h4>
-                                        </td>                                        
-                                      </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>                    
-                </div>
-            </div>
+        <header v-if="!showPreview">
+        <a href="/"><img src="images/logohigh.png"></a>
+        <v-tabs>
+        <v-tab @click="tab=1">Invoice</v-tab>
+        <v-tab @click="tab=2;">Bills</v-tab>
+        <v-tab @click="logout()">Logout</v-tab>
+         </v-tabs>
+        </header>
+        <!-- Invoice Code starts -->
+        <div class="p-4" v-if="tab==1 && !showPreview">
+          <div class="card p-3">
+            <h4 class="">Tax Invoice</h4>
+          <v-form ref="form" v-model="billFormValid">
             <div class="row">
-                <div class="col-md-6"></div>
-                <div class="col-md-6 text-right">
-                    <btn class="btn btn-success">
-                        Save
-                    </btn>
-                    <btn class="btn btn-success" @click="print=true;saveBill()">
-                            Save & Print
-                    </btn>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<v-stepper v-if="!billSaving" v-model="e1">
-    <v-stepper-header>
-      <v-stepper-step :complete="e1 > 1" step="1" :editable="editstep1">Items List</v-stepper-step>
-
-      <v-divider></v-divider>
-
-      <v-stepper-step :complete="e1 > 2" step="2" :editable="editstep2">Transport</v-stepper-step>
-
-      <v-divider></v-divider>
-
-      <v-stepper-step step="3" :editable="editstep3">Buyer Details</v-stepper-step>
-    </v-stepper-header>
-
-    <v-stepper-items>
-      <v-stepper-content step="1">
-        <v-card
-          class="mb-12"
-          color="white lighten-1"       
-        >
-        <v-form ref="form" v-model="billFormValid">
-        <table class="table table-bordered mb-0">
-            <thead>
-                <tr>
-                    <th class="border-0 text-uppercase small font-weight-bold">S.No</th>
-                    <th style="width:55%" class="border-0 text-uppercase small font-weight-bold">Item</th> 
-                    <th class="border-0 text-uppercase small font-weight-bold">HSN/SAC</th>                                       
-                    <th class="border-0 text-uppercase small font-weight-bold">Quantity</th>
-                    <th class="border-0 text-uppercase small font-weight-bold">Per</th>
-                    <th class="border-0 text-uppercase small font-weight-bold">Unit Cost</th>
-                    <th class="border-0 text-uppercase small font-weight-bold">Tax</th>
-                    <th class="border-0 text-uppercase small font-weight-bold">CGST</th>
-                    <th class="border-0 text-uppercase small font-weight-bold">SGST</th>
-                    <th class="border-0 text-uppercase small font-weight-bold">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="item" v-for="item in items">
-                    <td>{{items.indexOf(item) + 1}}</td>
-                    <td > <v-text-field
-                        label="Name" :rules="[rules.required]" v-model="item.name"
-                      ></v-text-field>
-                        </td>
-                    <td><v-text-field
-                        label="Hsn" :rules="[rules.required]"  v-model="item.hsn"
-                      ></v-text-field>
-                       </td>
-                    <td>
-                        <div class="d-flex">
-                        <v-text-field :rules="[rules.required]"
-                            label="Qty"  v-model="item.qty" type="number"
-                          ></v-text-field>
-                        <p>{{item.per}}</p></div>
-                    </td>
-                    <td>
-                            <v-combobox
-                            v-model="item.per"
-                            :items="itemPer"
-                            label="Per" :rules="[rules.required]"
-                            ></v-combobox>                        
-                    </td>
-                    <td>
-                        <v-text-field
-                        label="Price" :rules="[rules.required]"  v-model="item.price" type="number"
-                      ></v-text-field>
-                    </td>
-                    <td>
-                        <v-combobox  :rules="[rules.required]"
-                        v-model="item.tax"
-                        :items="taxValue"
-                        label="Tax"
-                        ></v-combobox>
-                    </td>
-                    <td>
-                        <div class="d-flex">
-                            ({{item.tax/2}})% {{((item.tax/100*(item.qty*item.price))/2).toFixed(2)}}
-                        </div>
-                    </td>
-                    <td>
-                        <div class="d-flex">
-                        ({{item.tax/2}}%) {{((item.tax/100*(item.qty*item.price))/2).toFixed(2)}}
-                        </div>
-                    </td>
-                    <td style="position:relative">
-                        {{ (item.tax/100*(item.qty*item.price))+(item.qty*item.price) | currency  }}
-                        <span class="show-hover fa fa-trash" @click="removeItem(items.indexOf(item))">x</span>
-                    </td>
-                  
-                </tr>
-              
-                  <tr>
-                    <td colspan="10">
-                      <div class="btn btn-round btn-primary btn-add-row" @click="addRow">Add row</div>
-                    </td>
-                  </tr>
-                  <tr class="total">
-                    <td colspan="10" class="text-right">
-                        <div class="h5 font-weight-light align-self">Total: RS {{ total | currency }}</div>
-                        <div class="h5 font-weight-light"> 
-                                <v-text-field
-                                label="Amount Payable" :max="total" :rules="[rules.amtpaid]"  v-model="sale.paid_amt" type="number"
-                              ></v-text-field>
-                        </div>
-                        <div class="h5 font-weight-light"> 
-                                <v-text-field
-                                label="Due"   v-model="sale.due" type="number"
-                              ></v-text-field>
-                            </div>
-                    </td>
-                    
-                  </tr>
-                  <tr class="total">
-                    <td colspan="10">
-                        <p>In words</p>
-                        
-                        <h4>{{total | words}}</h4>
-                    </td>
-                    
-                  </tr>
-                  
-        </tbody>
-        </table>
-        </v-form>
-    </v-card>
-
-        <v-btn
-          color="primary"
-          @click="e1 = 2" :disabled="!billFormValid"
-        >
-          Continue
-        </v-btn>
-
-        <v-btn text>Cancel</v-btn>
-      </v-stepper-content>
-
-      <v-stepper-content step="2">
-        <v-card
-          class="mb-12"
-          color="white lighten-1"         
-        >
-        <v-form ref="form" v-model="billFormValid1">
-        <table  class="table table-bordered">
+          <div class="col-md-6">
+            <table  class="table table-bordered">
                 <tr>
                     <td>                        
                         <v-text-field
@@ -439,9 +91,9 @@
                 </tr>
                 <tr>
                     <td>
-                        <v-text-field
-                        label="Mode/Terms of Payment" :rules="[rules.required]" v-model="sale.mode_pay"
-                        ></v-text-field>
+                        <v-select
+                        label="Mode/Terms of Payment *" :rules="[rules.required]" :items="['Cash','Cheque']" v-model="sale.mode_pay"
+                        ></v-select>
                     </td>
                     <td>
                         <v-text-field
@@ -510,77 +162,499 @@
                     </td>
                 </tr>
                
-            </table>  
-        </v-form>
-    
-    </v-card>
-
-        <v-btn
-          color="primary"
-          @click="e1 = 3" :disabled="!billFormValid1"
-        >
-          Continue
-        </v-btn>
-
-        <v-btn text>Cancel</v-btn>
-      </v-stepper-content>
-
-      <v-stepper-content step="3">
-        <v-card
-          class="mb-12"
-          color="white lighten-1">
-          <v-form ref="billform" v-model="billFormValid2">
-        
-          <h6 class="font-weight-bold">Buyer Details</h6>                                
+            </table> 
+          </div>
+          <div class="col-md-6">
+            <v-menu nudge-left="92" nudge-top="55"
+                v-model="date.min"
+                :close-on-content-click="true" full-width
+                max-width="290">
+                <template v-slot:activator="{ on }">
+                    <v-text-field 
+                        v-model="sale.date"
+                        label="Date *" :disabled="updateBill" prepend-icon="event"
+                        v-on="on" :rules="[rules.required]" readonly></v-text-field>
+                </template>
+                <v-date-picker no-title
+                    v-model="date.minPicker">
+                </v-date-picker>
+            </v-menu>
+            <p class="mb-0"> 
+              <v-text-field
+              label="Invoice No *" :disabled="updateBill" v-if="sale.billNo" :rules="[rules.required]" v-model="sale.billNo"
+            ></v-text-field>              
+          </p>                               
           <p class="mb-0"> 
                 <v-text-field
-                label="Buyer company" :rules=[rules.required] v-model="sale.b_company"
+                label="Buyer company *"  v-model="sale.b_company"
               ></v-text-field>              
             </p>
           <p class="mb-0">
                 <v-text-field
-                label="Buyer GSTIN" :rules=[rules.required] v-model="sale.b_GSTIN"
+                label="Buyer GSTIN"  v-model="sale.b_GSTIN"
               ></v-text-field>
             </p>
           <p class="mb-0">
               <v-text-field
-                label="Buyer PAN" :rules=[rules.required] v-model="sale.b_PAN"
+                label="Buyer PAN"  v-model="sale.b_PAN"
               ></v-text-field>
         </p>
           <p class="mb-0">             
               <v-text-field
-                label="Buyer State" :rules=[rules.required] v-model="sale.b_state"
+                label="Buyer State"  v-model="sale.b_state"
               ></v-text-field>              
             </p>
           <p class="mb-0">
                 <v-text-field
-                label="Place of Supply" :rules=[rules.required] v-model="sale.b_location"
+                label="Place of Supply"  v-model="sale.b_location"
               ></v-text-field>
         </p>          
           <p class="mb-0">
                 <v-text-field
-                label="Buyer Name" :rules=[rules.required] v-model="sale.b_name"
+                label="Buyer Name *"  v-model="sale.b_name" :rules="[rules.required]"
               ></v-text-field>              
             </p>
           <p class="mb-0">
                 <v-text-field
-                label="Buyer Contact" :rules=[rules.required] v-model="sale.b_phone"
+                label="Buyer Contact *" :rules="[rules.required]" type="number" v-model="sale.b_phone"
               ></v-text-field> 
             </p>
-        </v-form>
-        </v-card>
-
-        <v-btn
+          </div>
+          </div>
+        <table class="table table-bordered mb-0">
+            <thead>
+                <tr>
+                    <th class="border-0 text-uppercase small font-weight-bold">S.No</th>
+                    <th style="width:35%" class="border-0 text-uppercase small font-weight-bold">Item</th> 
+                    <th class="border-0 text-uppercase small font-weight-bold">HSN/SAC</th>                                       
+                    <th class="border-0 text-uppercase small font-weight-bold">Quantity</th>
+                    <th class="border-0 text-uppercase small font-weight-bold">Per</th>
+                    <th class="border-0 text-uppercase small font-weight-bold">Unit Cost</th>
+                    <th class="border-0 text-uppercase small font-weight-bold">Tax</th>
+                    <th class="border-0 text-uppercase small font-weight-bold">CGST</th>
+                    <th class="border-0 text-uppercase small font-weight-bold">SGST</th>
+                    <th class="border-0 text-uppercase small font-weight-bold">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="item" v-for="item in items">
+                    <td>{{items.indexOf(item) + 1}}</td>
+                    <td > <v-text-field
+                        label="Name *" :rules="[rules.required]" v-model="item.name"
+                      ></v-text-field>
+                        </td>
+                    <td><v-text-field
+                        label="Hsn *" :rules="[rules.required]"  v-model="item.hsn"
+                      ></v-text-field>
+                       </td>
+                    <td>
+                        <div class="d-flex">
+                        <v-text-field :rules="[rules.required]"
+                            label="Qty *"  v-model="item.qty" type="number"
+                          ></v-text-field>
+                        <p>{{item.per}}</p></div>
+                    </td>
+                    <td>
+                            <v-combobox 
+                            v-model="item.per"
+                            :items="itemPer"
+                            label="Per *" :rules="[rules.required]"
+                            ></v-combobox>                        
+                    </td>
+                    <td>
+                        <v-text-field
+                        label="Price *" :rules="[rules.required]"  v-model="item.price" type="number"
+                      ></v-text-field>
+                    </td>
+                    <td>
+                        <v-combobox  :rules="[rules.required]"
+                        v-model="item.tax"
+                        :items="taxValue"
+                        label="Tax *"
+                        ></v-combobox>
+                    </td>
+                    <td>
+                        <div class="d-flex">
+                            ({{item.tax/2}})% {{((item.tax/100*(item.qty*item.price))/2).toFixed(2)}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex">
+                        ({{item.tax/2}}%) {{((item.tax/100*(item.qty*item.price))/2).toFixed(2)}}
+                        </div>
+                    </td>
+                    <td style="position:relative">
+                        {{ ( item.tax/100*(item.qty*item.price) + item.qty*item.price) | currency  }}
+                        <span class="show-hover fa fa-trash" @click="removeItem(items.indexOf(item))">x</span>
+                    </td>
+                  
+                </tr>
+              
+                  <tr>
+                    <td colspan="10">
+                      <div class="btn btn-round btn-primary btn-add-row" @click="addRow">Add row</div>
+                    </td>
+                  </tr>
+                  <tr class="total">
+                    <td colspan="10" class="text-right">
+                        <div class="h5 font-weight-light align-self">Total: RS {{ total | currency }}</div>
+                        <div class="h5 font-weight-light"> 
+                                <v-text-field
+                                label="Amount Payable" :max="total" :rules="[rules.amtpaid]"  v-model="sale.paid_amt" type="number"
+                              ></v-text-field>
+                        </div>
+                        <div class="h5 font-weight-light"> 
+                                <v-text-field
+                                label="Due"   v-model="sale.due" type="number"
+                              ></v-text-field>
+                            </div>
+                    </td>
+                    
+                  </tr>
+                  <tr class="total">
+                    <td colspan="10">
+                        <p>In words</p>
+                        
+                        <h4>{{total | words}}</h4>
+                    </td>
+                    
+                  </tr>
+                  
+        </tbody>
+        </table>
+        <div class="container-fluid p-0 text-right">
+          <v-btn
           color="primary"
-          @click="previewBill" :disabled="!billFormValid2"
+          @click="previewBill" v-if="!updateBill" :disabled="!billFormValid"
         >
           Continue
         </v-btn>
+        <v-btn v-if="updateBill"
+        color="info" @click="updateCancel">
+        Cancel
+      </v-btn>
+        <v-btn
+        color="primary"
+        @click="saveUpdate" v-if="updateBill" :disabled="!billFormValid"
+      >
+        Save & Update
+      </v-btn>
+        </div>
+        
+        </v-form>
+      </div>
+        </div>
+         <!-- Invoice Code ends -->
+        <div  class="p-4" v-if="tab==2 && !showPreview">
+          <div class="card p-3">
+            <div class="row">
+                <v-text-field class="col-3 mb-3" v-model="allBills.search" append-icon="search"
+                label="Search with in result below" single-line hide-details>
+            </v-text-field>
+            </div>
+            
+            <v-data-table disable-initial-sort :headers="allBills.headers"
+            :items="allBills.list" class="elevation-1 custom" 
+            :search="allBills.search" :pagination.sync="pagination" :rows-per-page="'all'">
+            <template v-slot:items="props">
+                <td> {{ props.item.billNo}} </td>
+                <td>{{ props.item.b_name}}</td>
+                <td>{{ props.item.b_phone }}</td>
+                <td>{{ props.item.date }}</td>
+                <td>{{ props.item.mode_pay }}</td>
+                <td>{{ props.item.paid_amt }}</td>
+                <td>{{ props.item.due }}</td>
+                <td>
+                   <div class="btn btn-outline-success" color="primary" @click="deleteConfirm=true;deleteBillid=props.item._id">
+                       <v-icon>mdi-delete</v-icon>
+                   </div>
+                   <div class="btn btn-outline-success" color="primary" @click="updatebill(props.item._id)">
+                       <v-icon>mdi-pencil</v-icon>
+                   </div>
+                   <div class="btn btn-outline-success" color="primary" @click="viewBill(props.item._id)">
+                       <v-icon>mdi-eye</v-icon>
+                   </div>
+                   <!-- <div class="btn btn-outline-success" color="primary" @click="downloadBill(props.item._id)">
+                        <v-icon>mdi-download</v-icon>
+                   </div>                    -->
+                </td>
+            </template>
+            
+        </v-data-table>
+      </div>
+        </div>
 
-        <v-btn text>Cancel</v-btn>
-      </v-stepper-content>
-    </v-stepper-items>
-  </v-stepper>
+       
+          <div v-if="showPreview" class="row">
+              <div class="col-12">   
+                <div class="btn btn-outline-danger" @click="resetProps();editBill();viewInvoice=false;">
+                  <v-icon>close</v-icon> 
+                </div>            
+                  <div class="card border-0" id="printcontent">
+
+                      <h4 class="text-center">
+                         <span>Tax Invoice</span></h4>
+                      <div class="card-body p-0">                        
+                          <div class="row m-0">
+                              <div class="col-md-6 p-0">
+                                  <table class="table table-bordered" style="border-right: 0px;">
+                                      <tr>
+                                          <td style="border-right: 0px;">
+                                              <h5 class="text-capitalize">{{smartUser.companyName}}</h5>
+                                              <p class="mb-0"><b>{{smartUser.name}}</b></p>
+                                              <p class="mb-0">GSTIN No: <b>{{smartUser.GSTINnumber}}</b></p>                                                               
+                                              <p class="mb-0"><b>{{smartUser.address}}</b></p>
+                                              <p class="mb-0">Contact: <b>{{smartUser.mobileNumber}}</b></p>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td style="border-right: 0px;">
+                                              <h6 class="font-weight-bold">Buyer Details</h6>                                
+                                              <p class="mb-0">Company Name:<b>{{sale.b_company}}</b> </p>
+                                              <p class="mb-0">GSTIN: <b>{{sale.b_GSTIN}}</b></p>
+                                              <p class="mb-0">PAN: <b>{{sale.b_PAN}}</b></p>
+                                              <p class="mb-0">State:<b>{{sale.b_state}}</b></p>
+                                              <p class="mb-0">Place of Supply:<b>{{sale.b_location}}</b></p>
+                                              <p class="mb-0">Contact Person:<b>{{sale.b_phone}}</b></p>
+                                              <hr style="visibility: hidden" class="my-5"/>
+                                              
+                                              
+                                          </td>
+                                      </tr>
+                                  </table>
+                              </div>
+                              <div class="col-md-6 p-0">
+                                  <table  class="table table-bordered">
+                                      <tr>
+                                          <td>
+                                              <p class="mb-1">Invoice: <b>{{sale.billNo}}</b></p>
+                                              <p class="mb-1">E-way Bill no: <b>{{sale.ewaybill}}</b></p>
+                                          </td>
+                                          <td>
+                                          <p class="text-muted mb-0">Date: <b>{{sale.date}}</b></p>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                              <p class="mb-0">Delivery Note</p>
+                                              <b>{{sale.d_note}}</b>
+                                          </td>
+                                          <td>
+                                              <p class="mb-0">Mode/Terms of Payment</p>
+                                              <b>{{sale.mode_pay}}</b>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                              <p class="mb-0">Suppliers Ref</p>
+                                              <b>{{sale.sup_ref}}</b>
+                                          </td>
+                                          <td>
+                                              <p class="mb-0">Other Ref</p>
+                                              <b>{{sale.other_ref}}</b>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                              <p class="mb-0">Buyers Order No</p>
+                                              <b>{{sale.buyers_ord_no}}</b>
+                                          </td>
+                                          <td>
+                                              <p class="mb-0">Dated</p>
+                                              <b>{{sale.buyers_ord_date}}</b>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                              <p class=" mb-0">Despatch Document No</p>
+                                              <b>{{sale.despatch_no}}</b>
+                                          </td>
+                                          <td>
+                                              <p class="mb-0">Delivery Note Date</p>
+                                              <b>{{sale.del_note_date}}</b>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                              <p class="mb-0">Despatched Through</p>
+                                              <b>{{sale.despatch_through}}</b>
+                                          </td>
+                                          <td>
+                                              <p class="mb-0">Destination</p>
+                                              <b>{{sale.destination}}</b>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                              <p class="mb-0">Bill of Lading/RR No</p>
+                                              <b>{{sale.bill_rr_no}}</b>
+                                          </td>
+                                          <td>
+                                              <p class="mb-0">Motor Vehicle No</p>
+                                            <b>{{sale.vehicle_no}}</b>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td colspan="2">
+                                              <p class="mb-0">Terms of Delivery</p>
+                                              <b>{{sale.terms_delivery}}</b>
+                                          </td>
+                                      </tr>
+                                  </table> 
+                                              
+                              </div>
+                          </div>
+                          <div class="row m-0">
+                              <div class="col-md-12 p-0">
+                                  <table class="table table-bordered mb-0">
+                                      <thead>
+                                          <tr>
+                                              <th class="border-0 text-uppercase small font-weight-bold" style="width:35px;">S.No</th>
+                                              <th class="border-0 text-uppercase small font-weight-bold" style="width:35%;">Item</th> 
+                                              <th class="border-0 text-uppercase small font-weight-bold">HSN/SAC</th>                                       
+                                              <th class="border-0 text-uppercase small font-weight-bold">Qty</th>
+                                              <th class="border-0 text-uppercase small font-weight-bold">Unit Cost</th>
+                                              <th class="border-0 text-uppercase small font-weight-bold">Tax</th>
+                                              <th class="border-0 text-uppercase small font-weight-bold">CGST</th>
+                                              <th class="border-0 text-uppercase small font-weight-bold">SGST</th>
+                                              <th class="border-0 text-uppercase small font-weight-bold">Total</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr class="item" v-for="item in items">
+                                              <td>{{items.indexOf(item) + 1}}</td>
+                                              <td ><b>{{item.name}}</b></td>
+                                              <td><b>{{item.hsn}}</b></td>
+                                              <td>
+                                                  <div>
+                                                          <b>{{item.qty}}</b>
+                                                      {{item.per}}</div></td>
+                                             
+                                              <td><b>{{item.price}}</b></td>
+                                              <td>
+                                                      <b>{{item.tax}}</b>
+                                              </td>
+                                              <td>
+                                                      (<span class="font-weight-bold">{{item.tax/2}}</span>)% {{((item.tax/100*(item.qty*item.price))/2).toFixed(2)}}
+                                                 
+                                              </td>
+                                              <td>
+                                                  
+                                                  (<span class="font-weight-bold">{{item.tax/2}}</span>)% {{((item.tax/100*(item.qty*item.price))/2).toFixed(2)}}
+                                                  
+                                              </td>
+                                              <td >
+                                                <b>{{ item.tax/100*(item.qty*item.price)+(item.qty*item.price) | currency  }}    </b>                                             
+                                              </td>
+                                            
+                                          </tr>
+                                        
+                                            <tr>
+                                              <td colspan="10">
+                                               
+                                              </td>
+                                            </tr>
+                                            <tr class="total">
+                                              <td colspan="10" class="text-right">
+                                                  <div class="h5">Total: RS <b>{{ total | currency }}</b></div>
+                                                  <div class="h5">Amount Paid: 
+                                                          <b>{{sale.paid_amt}}</b></div>
+                                                  <div class="h5">Due:
+                                                          <b>{{sale.due}}</b></div>
+                                              </td>
+                                              
+                                            </tr>
+                                            <tr class="total">
+                                              <td colspan="10">
+                                                  <p>In words</p>
+                                                  
+                                                  <h4>{{total | words}}</h4>
+                                              </td>
+                                              
+                                            </tr>
+                                            
+                                            <tr class="total">
+                                              <td colspan="5" height="20">
+                                              </td>
+                                              <td colspan="5" height="20">
+                                                  <p class="font-weight-bold">Company's Bank Details</p>
+                                                  <p>Bank Name:<b>{{smartUser.bankName}}</b></p>
+                                                  <p>Account number:<b>{{smartUser.accNo}}</b></p>
+                                                  <p>Branch Name: <b>{{smartUser.branchName}} </b></p>
+                                                  <p>IFSC Code: <b>{{smartUser.IFSC}}</b></p>
+                                              </td>
+                                            </tr>
+                                            <tr class="total">
+                                              <td colspan="5" height="20">
+                                                  <p><strong>Declaration</strong></p>
+                                                  <p>
+                                                      We declare that this invoice actual price of the goods described and that all particulars are true and correct
+                                                  </p>
+                                              </td> 
+                                              <td colspan="5" height="20">
+                                                  <h4>For {{smartUser.companyName}}</h4>
+                                              </td>                                        
+                                            </tr>
+                                      </tbody>
+                                  </table>
+                                  <span>**This is computer generated Invoice**</span>    
+                              </div>
+                          </div>                    
+                      </div>
+                      
+                  </div>
+                  <div class="row">
+                      <div class="col-md-6"></div>
+                      <div class="col-md-6" v-if="viewInvoice">
+                        <v-btn class="btn btn-outline btn-info" @click="resetProps();editBill();viewInvoice=false;">Close</v-btn>
+                        <v-btn class="btn btn-success" @click="window.print();">Print</v-btn>
+                      </div>
+                      <div class="col-md-6 text-right" v-if="!viewInvoice">
+                        <v-btn class="btn btn-outline btn-info" @click="editBill">Edit</v-btn>
+                          <btn class="btn btn-success" v-if="!updateBill" @click="print=false;saveBill();">
+                              Save
+                          </btn>
+                          <btn class="btn btn-success" v-if="updateBill" @click="print=false;saveBill();">
+                            Save And Update
+                          </btn>
+                          <btn class="btn btn-success" @click="print=true;saveBill();">
+                                  Save & Print
+                          </btn>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+
+          <v-dialog v-model="loading" persistent width="450">
+            <v-card color="primary" dark>
+                <v-card-text>
+                    Please wait...
+                    <v-progress-linear indeterminate color="white" class="mb-0">
+                    </v-progress-linear>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="deleteConfirm" persistent width="450">
+          <v-card class="p-4">
+            <h4>Please Confirm Password to Delete
+                <v-icon @click="deleteConfirm=false">close</v-icon>
+            </h4>
+            
+              <v-card-text>
+                <v-form v-model="deleteForm">
+               <v-text-field
+                  label="Password *" :rules="[rules.required]"  v-model="deletePassword" type="text"
+                ></v-text-field>
+                <v-btn color="primary" @click="deleteBill" :disabled="!deleteForm">Submit</v-btn>
+              </v-form>
+              </v-card-text>
+              
+          </v-card>
+      </v-dialog>
+ 
+
+
   
 </v-app>
 </div>

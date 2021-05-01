@@ -1,22 +1,21 @@
 var app = new Vue({
   el: "#app",
   mounted: function() {
-    this.getProfile();   
-    this.getBills();    
-    this.sale.date = moment().format("DD MMM YYYY");    
+    this.getProfile();
+    this.sale.billNo = "SVC-20-21-";
+    this.sale.date = moment().format("DD MMM YYYY");
   },
   created: function() {
     this.resetProps();
   },
   data: {
     taxValue: [18, 28],
-    tab: 0,
+    tab: 1,
     viewInvoice: false,
     deleteForm: false,
     deletePassword: "",
     deleteBillid: "",
     deleteConfirm: false,
-    lastInvoiceNo: 0,
     allBills: {
       list: [],
       headers: [
@@ -108,7 +107,7 @@ var app = new Vue({
       })
         .done(function(data) {
           app.allBills.list = data;
-          app.getLatestInvoiceNumber(data);         
+          app.loading = false;
         })
         .fail(function(request, status, error) {
           app.loading = false;
@@ -226,9 +225,9 @@ var app = new Vue({
       Object.keys(this.sale).forEach(item => {
         this.sale[item] = "";
       });
-      this.items = [{ name: "", hsn: "", qty: 1, price: 0, tax: 0 }];      
+      this.items = [{ name: "", hsn: "", qty: 1, price: 0, tax: 0 }];
+      this.sale.billNo = "SVC-19-20-";
       this.sale.date = moment().format("DD MMM YYYY");
-      this.setInvoiceNo;
     },
     getProfile: function() {
       this.loading = true;
@@ -315,7 +314,6 @@ var app = new Vue({
           .checkUser()
           .then(data => {
             $.ajax({
-              // url:"http://localhost:3000/deleteBill?id=" + app.deleteBillid,
               url: "https://srivenkateswara.herokuapp.com/deleteBill?id=" + app.deleteBillid,
               type: "POST",
               cache: false,
@@ -368,7 +366,6 @@ var app = new Vue({
           app.e1 = 1;
           app.billSaving = false;
           app.showPreview = false;
-          this.lastInvoiceNo = this.lastInvoiceNo+1;
           app.resetProps();
         })
         .fail(function(request, status, error) {
@@ -412,19 +409,6 @@ var app = new Vue({
         }
         document.getElementById("op").innerHTML = op;
       }
-    },
-    getLatestInvoiceNumber: function(data){
-      const invoiceNos = data.map(item => item.billNo.split('-')[3]);
-      this.lastInvoiceNo = parseInt(invoiceNos[invoiceNos.length-1].trim())+1
-      this.setInvoiceNo();
-      this.loading = false;
-    },
-    setInvoiceNo: function(){ 
-      let yearStr = (new Date().getFullYear()).toString();   
-      yearStr = yearStr.substr(2,2);        
-      this.sale.billNo = `SVC-${yearStr}-${Number(yearStr)+1}-`;
-      this.sale.billNo = this.sale.billNo + this.lastInvoiceNo.toString(); 
-      this.tab=1;     
     }
   },
   filters: {

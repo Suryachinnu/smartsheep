@@ -40,17 +40,17 @@
         <div class="login-form" style="max-width:500px;margin:0 auto;">
           <img src="images/logosmall.png" class="img-responsive logo-img">
   <div class="form-group">
-    <v-text-field type="text" label="User name" rules='[rules.required,rules.urlValidation]' outlined v-model="l_username"></v-text-field>  
+    <v-text-field type="text" label="User name" :rules="[rules.required,rules.urlValidation]" outlined v-model="l_username"></v-text-field>  
   </div>
   <div class="form-group">   
-    <v-text-field type="password" label="Password" rules='[rules.required]' outlined v-model="l_password"></v-text-field>    
+    <v-text-field type="password" label="Password" :rules="[rules.required]" outlined v-model="l_password"></v-text-field>    
   </div>
     <div class="form-check">
     <label class="form-check-label">
       <input type="checkbox" class="form-check-input">
       <small>Remember Me</small>
     </label>
-    <button type="submit" @click="loginMethod" :disabled="!isLoginFormValid" class="btn btn-login float-right">Submit</button>
+    <button type="button" @click="loginMethod" :disabled="!isLoginFormValid" class="btn btn-login float-right">Submit</button>
   </div>
   <label class="mt-2 block" @click="section='register'">Click here to sign up</label>
   
@@ -129,7 +129,15 @@
 <form method="post" action="#" id="saveDataForm" name="saveDataForm" style="visibility:hidden;">
   <input type="hidden" name="data" id="saveData" />
 </form>
-
+<v-dialog v-model="loading" persistent width="450">
+  <v-card color="primary" dark>
+      <v-card-text>
+          Please wait...
+          <v-progress-linear indeterminate color="white" class="mb-0">
+          </v-progress-linear>
+      </v-card-text>
+  </v-card>
+</v-dialog>
 </v-app>
   </div>
   <script src='./vue/vue.min.js'></script>

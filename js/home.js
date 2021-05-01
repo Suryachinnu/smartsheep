@@ -3,6 +3,7 @@
 var app = new Vue({
     el: '#app',
     data: {
+        loading:false,
         userName:"adfgf",
         section:'login',
         l_username:'',
@@ -27,33 +28,37 @@ var app = new Vue({
         },
         rules: {
             required: value => !!value || 'Required',
-            urlValidation: value => ((app && app.validURL(value))) || 'Enter valid URL',
+            urlValidation: value => ((app && app.validEmail(value))) || 'Enter valid URL',
         },
         isRegisterFormValid:false
         },
     methods:{
         loginMethod: function(){
+            this.loading=true;
             $.ajax({
                 type: "get",
-                url: "http://localhost:3000/user?email="+this.l_username+"&password="+this.l_password,
+                // url: "http://localhost:3000/user?email="+this.l_username+"&password="+this.l_password,
+                url:"https://srivenkateswara.herokuapp.com/user?email="+this.l_username+"&password="+this.l_password,
                 dataType: "json"
             }).done(function (data) {
-                if(data.length===0){
-                    this.showSnackBar("There is no user with this details...", "error");
+                app.loading=false;
+                if(Object.keys(data).length===0){
+                    app.showSnackBar("Please provide valid credentials", "error");
                 }else{
                    this.smartUser = data;
                    sessionStorage.setItem("email", data.email);
                    window.location.href='/sales.html'
                 }                
             }).fail(function (request, status, error) {
+                app.loading=false;
                 // app.hideLoader();
             });
         },
-        validURL: function (str) {
+        validEmail: function (str) {
             if (str == '') {
                 return true
             } else {
-                return /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/.test(str);
+                return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(str);
             }
 
         },
@@ -64,6 +69,7 @@ var app = new Vue({
         },
         register: function(){
             event.preventDefault();
+            this.loading=true;
             let data = {
                 "name":this.r_username,
                 "email":this.r_email,
@@ -83,7 +89,8 @@ var app = new Vue({
             var dataform = new FormData(form);
             // dataform.append("data", data)
             $.ajax({
-                url: "http://localhost:3000/user",
+                // url: "http://localhost:3000/user", //local URL
+                url:"https://srivenkateswara.herokuapp.com/user",
                 type: "POST",
                 cache: false,
                 contentType:"application/json",
@@ -91,12 +98,13 @@ var app = new Vue({
                 dataType: "json",
                 data: JSON.stringify(data),
                 success: (response) => {
+                    app.loading=false;
                     // alert(response)
                     this.showSnackBar("User registered successfully ...", "success");
                     this.section='login'
                 },
                 complete: () => {
-                    this.loading = false;
+                    app.loading = false;
                     // this.showSnackBar("Server Error: Unable to Save ...", "error");
                 }
             });
