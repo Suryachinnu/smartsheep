@@ -224,11 +224,15 @@ var app = new Vue({
     },
     resetProps: function() {
       Object.keys(this.sale).forEach(item => {
-        this.sale[item] = "";
+        if(item !== 'billNo'){
+          this.sale[item] = "";
+        } else{
+          this.sale[item] = this.returnSaleInvoice();
+        }
+              
       });
       this.items = [{ name: "", hsn: "", qty: 1, price: 0, tax: 0 }];      
-      this.sale.date = moment().format("DD MMM YYYY");
-      this.setInvoiceNo;
+      this.sale.date = moment().format("DD MMM YYYY");     
     },
     getProfile: function() {
       this.loading = true;
@@ -425,6 +429,12 @@ var app = new Vue({
       this.sale.billNo = `SVC-${yearStr}-${Number(yearStr)+1}-`;
       this.sale.billNo = this.sale.billNo + this.lastInvoiceNo.toString(); 
       this.tab=1;     
+    },
+    returnSaleInvoice(){
+      let yearStr = (new Date().getFullYear()).toString();   
+      yearStr = yearStr.substr(2,2);        
+      let saleNo = `SVC-${yearStr}-${Number(yearStr)+1}-`;
+      return saleNo + this.lastInvoiceNo.toString(); 
     }
   },
   filters: {
