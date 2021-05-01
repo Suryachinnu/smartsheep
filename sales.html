@@ -608,6 +608,9 @@
                       <div class="col-md-6" v-if="viewInvoice">
                         <v-btn class="btn btn-outline btn-info" @click="resetProps();editBill();viewInvoice=false;">Close</v-btn>
                         <v-btn class="btn btn-success" @click="window.print();">Print</v-btn>
+                        <btn class="btn btn-outline btn-info">
+                          <v-icon @click="shareWhatsapp()">share</v-icon>
+                        </btn>
                       </div>
                       <div class="col-md-6 text-right" v-if="!viewInvoice">
                         <v-btn class="btn btn-outline btn-info" @click="editBill">Edit</v-btn>

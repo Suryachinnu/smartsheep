@@ -435,6 +435,12 @@ var app = new Vue({
       yearStr = yearStr.substr(2,2);        
       let saleNo = `SVC-${yearStr}-${Number(yearStr)+1}-`;
       return saleNo + this.lastInvoiceNo.toString(); 
+    },
+    invoiceText(){
+      return `Hi *${this.sale.b_company}*,%0aPlease find attached an invoice for *${this.sale.billNo}*.%0abilled Amount : *${this.total}* %0aThanks for your business. If you have any questions about your invoice, please contact *${this.smartUser.mobileNumber}* at ${this.smartUser.companyName}.%0aBest, %0a*${this.smartUser.companyName}*`
+    },
+    shareWhatsapp(){
+      window.open('https://wa.me/+91'+this.sale.b_phone+'?text='+this.invoiceText())
     }
   },
   filters: {
@@ -537,5 +543,7 @@ var app = new Vue({
       }
       return words_string;
     }
-  }
+  },
+
+  
 });
